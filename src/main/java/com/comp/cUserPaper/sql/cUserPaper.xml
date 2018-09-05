@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>  
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.comp.cUserPaper.dao.CUserPaperDAO">
+	<resultMap id="baseResultMap" type="com.comp.cUserPaper.model.CUserPaper">
+		<id column="id" jdbcType="BIGINT" property="id" />
+		<result column="userId" jdbcType="INTEGER" property="userId" />
+		<result column="paperId" jdbcType="VARCHAR" property="paperId" />
+		<result column="createTime" jdbcType="TIMESTAMP" property="createTime" />
+		<result column="score" jdbcType="INTEGER" property="score" />
+		<result column="userName" jdbcType="VARCHAR" property="userName" />
+		<result column="departmentName" jdbcType="VARCHAR" property="departmentName" />
+	</resultMap>
+
+	<!-- 查询参数 -->
+    <sql id="cUserPaper_column_body">
+         a.id,a.userId,a.paperId,a.createTime,a.score
+    </sql>
+    <!-- 查询条件 -->
+    <sql id="cUserPaper_select_body">
+    	<trim prefix="where" prefixOverrides="and | or">
+    		<if test="id != null"> and a.id = #{id,jdbcType=BIGINT} </if>
+    		<if test="userId != null"> and a.userId = #{userId,jdbcType=INTEGER} </if>
+    		<if test="paperId != null"> and a.paperId = #{paperId,jdbcType=VARCHAR} </if>
+    		<if test="createTime != null"> and a.createTime = #{createTime,jdbcType=TIMESTAMP} </if>
+    		<if test="score != null"> and a.score = #{score,jdbcType=INTEGER} </if>
+		</trim>
+    </sql>
+    <select id="getCUserPaperById" parameterType="java.lang.Long" resultMap="baseResultMap">
+        SELECT <include refid="cUserPaper_column_body" />
+        FROM c_user_paper a
+		where a.id = #{id}
+    </select>
+    <select id="getCUserPaperList" parameterType="com.comp.cUserPaper.model.CUserPaper" resultMap="baseResultMap">
+        SELECT <include refid="cUserPaper_column_body" />
+        FROM c_user_paper a
+		<include refid="cUserPaper_select_body" />
+    </select>
+    
+    <insert id="insertCUserPaper" parameterType="com.comp.cUserPaper.model.CUserPaper">
+        INSERT INTO c_user_paper
+        <trim prefix="(" suffix=")" prefixOverrides=",">
+	        	<if test="userId != null"> ,userId </if>
+	        	<if test="paperId != null"> ,paperId </if>
+	        	<if test="createTime != null"> ,createTime </if>
+	        	<if test="score != null"> ,score </if>
+        </trim>
+        <trim prefix="values (" suffix=")" prefixOverrides=",">
+	        	<if test="userId != null"> ,#{userId,jdbcType=INTEGER} </if>
+	        	<if test="paperId != null"> ,#{paperId,jdbcType=VARCHAR} </if>
+	        	<if test="createTime != null"> ,#{createTime,jdbcType=TIMESTAMP} </if>
+	        	<if test="score != null"> ,#{score,jdbcType=INTEGER} </if>
+		 </trim>
+        <selectKey keyProperty="id" resultType="long">
+			SELECT @@IDENTITY AS id 
+		</selectKey>
+    </insert>
+    <update id="updateCUserPaperById" parameterType="com.comp.cUserPaper.model.CUserPaper">
+        UPDATE c_user_paper
+        <set>
+        		<if test="userId != null"> userId = #{userId,jdbcType=INTEGER}, </if>
+        		<if test="paperId != null"> paperId = #{paperId,jdbcType=VARCHAR}, </if>
+        		<if test="createTime != null"> createTime = #{createTime,jdbcType=TIMESTAMP}, </if>
+        		<if test="score != null"> score = #{score,jdbcType=INTEGER}, </if>
+        </set>
+    	where id = #{id}
+    </update>
+    <delete id="deleteCUserPaperById">
+        delete from c_user_paper where id = #{id}
+    </delete>
+    
+     <select id="getCUserPaperListByDepartment" parameterType="com.comp.cUserPaper.model.CUserPaper" resultMap="baseResultMap">
+        SELECT a.id,a.userId,a.paperId,a.createTime,a.score,b.realName as userName,c.name as departmentName
+        FROM c_user_paper a
+        left join manage_admin_user b on a.userId = b.adminId
+        left join c_department c on b.departmentId = c.id
+		<trim prefix="where" prefixOverrides="and | or">
+    		<if test="id != null"> and a.id = #{id,jdbcType=BIGINT} </if>
+    		<if test="userId != null"> and a.userId = #{userId,jdbcType=INTEGER} </if>
+    		<if test="paperId != null"> and a.paperId = #{paperId,jdbcType=VARCHAR} </if>
+    		<if test="createTime != null"> and a.createTime = #{createTime,jdbcType=TIMESTAMP} </if>
+    		<if test="score != null"> and a.score = #{score,jdbcType=INTEGER} </if>
+    		<if test="departmentIds != null"> AND b.departmentIds like CONCAT(#{departmentIds},'%') </if>
+		</trim>
+    </select>
+</mapper>

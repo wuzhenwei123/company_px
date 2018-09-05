@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>  
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sys.manageUserOpLog.dao.ManageUserOpLogDao">
+	<!-- 查询参数 -->
+    <sql id="manageUserOpLog_sql_body">
+         a.id,a.user_id,a.user_name,a.user_type,a.content,a.create_time,a.requestPath,a.content_en
+    </sql>
+    <!-- 查询条件 -->
+    <sql id="manageUserOpLog_select_body">
+    	<trim prefix="WHERE" prefixOverrides="AND | OR">
+			<if test="id != null"> AND a.id = #{id} </if>
+			<if test="user_id != null"> AND a.user_id = #{user_id} </if>
+			<if test="user_name != null"> AND a.user_name = #{user_name} </if>
+			<if test="user_type != null"> AND a.user_type = #{user_type} </if>
+			<if test="content != null"> AND a.content = #{content} </if>
+			<if test="create_time1 != null"> AND a.create_time >= #{create_time1} </if>
+			<if test="create_time2 != null"> AND a.create_time <![CDATA[<=]]> #{create_time2} </if>
+			<if test="requestPath != null"> AND a.requestPath = #{requestPath} </if>
+			<if test="content_en != null"> AND a.content_en = #{content_en} </if>
+		</trim>
+    </sql>
+   
+ 	<!-- 分页 -->
+    <sql id="manageUserOpLog_limit_body">
+    	<if test="offset!=null and limit!=null">
+    	limit ${offset} , ${limit} 
+    	</if>
+    </sql>
+    <!-- 排序 -->
+    <sql id="manageUserOpLog_sort_body">
+    	<if test="sort!=null and order!=null"> order by a.${sort} ${order} </if>
+    </sql>
+    <!-- 总条数-分页 -->
+    <select id="getManageUserOpLogListCount" resultType="int">
+         SELECT COUNT(*) FROM manage_user_op_log a
+		<include refid="manageUserOpLog_select_body"></include>
+    </select>
+    <!-- 数据集合-分页 -->
+    <select id="getManageUserOpLogList" parameterType="com.sys.manageUserOpLog.model.ManageUserOpLog" resultType="com.sys.manageUserOpLog.model.ManageUserOpLog">
+    	SELECT <include refid="manageUserOpLog_sql_body" />
+        FROM manage_user_op_log a
+		<include refid="manageUserOpLog_select_body" />
+		<include refid="manageUserOpLog_sort_body" />
+		<include refid="manageUserOpLog_limit_body" />
+    </select>
+    <select id="getManageUserOpLog" parameterType="com.sys.manageUserOpLog.model.ManageUserOpLog" resultType="com.sys.manageUserOpLog.model.ManageUserOpLog">
+        SELECT <include refid="manageUserOpLog_sql_body" />
+        FROM manage_user_op_log a
+		<include refid="manageUserOpLog_select_body" />
+		<include refid="manageUserOpLog_sort_body" />
+    </select>
+    <select id="getManageUserOpLogBaseList" parameterType="com.sys.manageUserOpLog.model.ManageUserOpLog" resultType="com.sys.manageUserOpLog.model.ManageUserOpLog">
+        SELECT <include refid="manageUserOpLog_sql_body" />
+        FROM manage_user_op_log a
+		<include refid="manageUserOpLog_select_body" />
+		<include refid="manageUserOpLog_sort_body" />
+    </select>
+    
+    <insert id="insertManageUserOpLog">
+        INSERT INTO manage_user_op_log ( 
+        <trim prefix="" prefixOverrides=",">
+        	<if test="user_id !=null"> ,user_id </if>
+        	<if test="user_name !=null"> ,user_name </if>
+        	<if test="user_type !=null"> ,user_type </if>
+        	<if test="content !=null"> ,content </if>
+        	<if test="create_time !=null"> ,create_time </if>
+        	<if test="requestPath !=null"> ,requestPath </if>
+        	<if test="content_en !=null"> ,content_en </if>
+        </trim>
+        )
+        VALUES (
+        <trim prefix="" prefixOverrides=",">
+        	<if test="user_id !=null"> ,#{user_id} </if>
+        	<if test="user_name !=null"> ,#{user_name} </if>
+        	<if test="user_type !=null"> ,#{user_type} </if>
+        	<if test="content !=null"> ,#{content} </if>
+        	<if test="create_time !=null"> ,#{create_time} </if>
+        	<if test="requestPath !=null"> ,#{requestPath} </if>
+        	<if test="content_en !=null"> ,#{content_en} </if>
+		 </trim>
+        )
+        <selectKey keyProperty="id" resultType="long">
+			SELECT @@IDENTITY AS id 
+		</selectKey>
+    </insert>
+    <update id="updateManageUserOpLog">
+        UPDATE manage_user_op_log
+        <trim prefix="set" prefixOverrides=",">
+        	<if test="user_id != null"> ,user_id = #{user_id} </if>
+        	<if test="user_name != null"> ,user_name = #{user_name} </if>
+        	<if test="user_type != null"> ,user_type = #{user_type} </if>
+        	<if test="content != null"> ,content = #{content} </if>
+        	<if test="create_time != null"> ,create_time = #{create_time} </if>
+        	<if test="requestPath != null"> ,requestPath = #{requestPath} </if>
+        	<if test="content_en != null"> ,content_en = #{content_en} </if>
+        </trim>
+    	where id = #{id}
+    </update>
+    <delete id="removeManageUserOpLog">
+        delete from manage_user_op_log where id = #{id}
+    </delete>
+</mapper>

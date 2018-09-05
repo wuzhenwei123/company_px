@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?>  
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.comp.cDepartment.dao.CDepartmentDAO">
+	<resultMap id="baseResultMap" type="com.comp.cDepartment.model.CDepartment">
+		<id column="id" jdbcType="VARCHAR" property="id" />
+		<result column="name" jdbcType="VARCHAR" property="name" />
+		<result column="level" jdbcType="INTEGER" property="level" />
+		<result column="parent_id" jdbcType="VARCHAR" property="parentId" />
+		<result column="code" jdbcType="VARCHAR" property="code" />
+		<result column="sort_id" jdbcType="INTEGER" property="sortId" />
+		<result column="parent_ids" jdbcType="VARCHAR" property="parentIds" />
+	</resultMap>
+
+	<!-- 查询参数 -->
+    <sql id="cDepartment_column_body">
+         a.id,a.name,a.level,a.parent_id,a.code,a.sort_id,a.parent_ids
+    </sql>
+    <!-- 查询条件 -->
+    <sql id="cDepartment_select_body">
+    	<trim prefix="where" prefixOverrides="and | or">
+    		<if test="id != null"> and a.id = #{id,jdbcType=VARCHAR} </if>
+    		<if test="name != null"> and a.name = #{name,jdbcType=VARCHAR} </if>
+    		<if test="level != null"> and a.level = #{level,jdbcType=INTEGER} </if>
+    		<if test="parentId != null"> and a.parent_id = #{parentId,jdbcType=BIGINT} </if>
+    		<if test="code != null"> and a.code = #{code,jdbcType=VARCHAR} </if>
+    		<if test="sortId != null"> and a.sort_id = #{sortId,jdbcType=INTEGER} </if>
+    		<if test="parentIds != null"> and a.parent_ids like CONCAT(#{parentIds},'%') </if>
+		</trim>
+    </sql>
+    <select id="getCDepartmentById" parameterType="java.lang.Long" resultMap="baseResultMap">
+        SELECT <include refid="cDepartment_column_body" />
+        FROM c_department a
+		where a.id = #{id}
+    </select>
+    
+    <select id="getCDepartmentCount" parameterType="com.comp.cDepartment.model.CDepartment" resultType="int">
+        SELECT count(*)
+        FROM c_department a
+		<include refid="cDepartment_select_body" />
+    </select>
+    
+    <select id="getCDepartmentList" parameterType="com.comp.cDepartment.model.CDepartment" resultMap="baseResultMap">
+        SELECT <include refid="cDepartment_column_body" />
+        FROM c_department a
+		<include refid="cDepartment_select_body" />
+    </select>
+    
+    <!-- 排序 -->
+    <sql id="cDepartment_sort_body">
+    	<if test="sort!=null and order!=null"> order by a.${sort} ${order} </if>
+    </sql>
+    
+    <select id="getCDepartmentListBySort" parameterType="com.comp.cDepartment.model.CDepartment" resultMap="baseResultMap">
+        SELECT <include refid="cDepartment_column_body" />
+        FROM c_department a
+		<include refid="cDepartment_select_body" />
+		<include refid="cDepartment_sort_body" />
+    </select>
+    
+    <insert id="insertCDepartment" parameterType="com.comp.cDepartment.model.CDepartment">
+        <selectKey keyProperty="id" resultType="String" order="BEFORE">  
+	        select   REPLACE(UUID(),'-','')   from dual  
+	    </selectKey>  
+    
+        INSERT INTO c_department
+        <trim prefix="(" suffix=")" prefixOverrides=",">
+	        	<if test="id != null"> ,id </if>
+	        	<if test="name != null"> ,name </if>
+	        	<if test="level != null"> ,level </if>
+	        	<if test="parentId != null"> ,parent_id </if>
+	        	<if test="code != null"> ,code </if>
+	        	<if test="sortId != null"> ,sort_id </if>
+	        	<if test="parentIds != null"> ,parent_ids </if>
+        </trim>
+        <trim prefix="values (" suffix=")" prefixOverrides=",">
+	        	<if test="id != null"> ,#{id,jdbcType=VARCHAR} </if>
+	        	<if test="name != null"> ,#{name,jdbcType=VARCHAR} </if>
+	        	<if test="level != null"> ,#{level,jdbcType=INTEGER} </if>
+	        	<if test="parentId != null"> ,#{parentId,jdbcType=VARCHAR} </if>
+	        	<if test="code != null"> ,#{code,jdbcType=VARCHAR} </if>
+	        	<if test="sortId != null"> ,#{sortId,jdbcType=INTEGER} </if>
+	        	<if test="parentIds != null"> ,#{parentIds,jdbcType=VARCHAR} </if>
+		 </trim>
+    </insert>
+    <update id="updateCDepartmentById" parameterType="com.comp.cDepartment.model.CDepartment">
+        UPDATE c_department
+        <set>
+        		<if test="name != null"> name = #{name,jdbcType=VARCHAR}, </if>
+        		<if test="level != null"> level = #{level,jdbcType=INTEGER}, </if>
+        		<if test="parentId != null"> parent_id = #{parentId,jdbcType=VARCHAR}, </if>
+        		<if test="code != null"> code = #{code,jdbcType=VARCHAR}, </if>
+        		<if test="sortId != null"> sort_id = #{sortId,jdbcType=INTEGER}, </if>
+        		<if test="parentIds != null"> parent_ids = #{parentIds,jdbcType=VARCHAR}, </if>
+        </set>
+    	where id = #{id}
+    </update>
+    <delete id="deleteCDepartmentById">
+        delete from c_department where id = #{id}
+    </delete>
+    
+    <select id="checkDepartmentCode" parameterType="com.comp.cDepartment.model.CDepartment" resultType="int">
+        SELECT count(*)
+        FROM c_department where 
+		code = #{code,jdbcType=VARCHAR}
+		<if test="id != null"> and id <![CDATA[<>]]> #{id,jdbcType=VARCHAR} </if>
+    </select>
+</mapper>

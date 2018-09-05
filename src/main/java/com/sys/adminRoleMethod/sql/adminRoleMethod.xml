@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>  
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sys.adminRoleMethod.dao.AdminRoleMethodDao">
+	<!-- 查询参数 -->
+    <sql id="adminRoleMethod_sql_body">
+         b.en_name,b.zh_name,b.actionPath,a.id,a.roleId,a.mid,a.columnId
+    </sql>
+    <!-- 查询条件 -->
+    <sql id="adminRoleMethod_select_body">
+    	<trim prefix="WHERE" prefixOverrides="AND | OR">
+			<if test="id != null"> AND a.id = #{id} </if>
+			<if test="roleId != null"> AND a.roleId = #{roleId} </if>
+			<if test="mid != null"> AND a.mid = #{mid} </if>
+			<if test="columnId != null"> AND a.columnId = #{columnId} </if>
+		</trim>
+    </sql>
+   
+ 	<!-- 分页 -->
+    <sql id="adminRoleMethod_limit_body">
+    	<if test="offset!=null and limit!=null">
+    	limit ${offset} , ${limit} 
+    	</if>
+    </sql>
+    <!-- 排序 -->
+    <sql id="adminRoleMethod_sort_body">
+    	<if test="sort!=null and order!=null"> order by a.${sort} ${order} </if>
+    </sql>
+    <!-- 总条数-分页 -->
+    <select id="getAdminRoleMethodListCount" resultType="int">
+         SELECT COUNT(*) FROM manage_admin_role_method a
+		<include refid="adminRoleMethod_select_body"></include>
+    </select>
+    <!-- 数据集合-分页 -->
+    <select id="getAdminRoleMethodList" parameterType="com.sys.adminRoleMethod.model.AdminRoleMethod" resultType="com.sys.adminRoleMethod.model.AdminRoleMethod">
+    	SELECT <include refid="adminRoleMethod_sql_body" />
+        FROM manage_admin_role_method a
+        left join manage_column_method b on a.mid = b.mid
+		<include refid="adminRoleMethod_select_body" />
+		<include refid="adminRoleMethod_sort_body" />
+		<include refid="adminRoleMethod_limit_body" />
+    </select>
+    <select id="getAdminRoleMethod" parameterType="com.sys.adminRoleMethod.model.AdminRoleMethod" resultType="com.sys.adminRoleMethod.model.AdminRoleMethod">
+        SELECT <include refid="adminRoleMethod_sql_body" />
+        FROM manage_admin_role_method a
+        left join manage_column_method b on a.mid = b.mid
+		<include refid="adminRoleMethod_select_body" />
+    </select>
+    <select id="getAdminRoleMethodBaseList" parameterType="com.sys.adminRoleMethod.model.AdminRoleMethod" resultType="com.sys.adminRoleMethod.model.AdminRoleMethod">
+        SELECT <include refid="adminRoleMethod_sql_body" />
+        FROM manage_admin_role_method a
+        left join manage_column_method b on a.mid = b.mid
+		<include refid="adminRoleMethod_select_body" />
+    </select>
+    
+    <insert id="insertAdminRoleMethod">
+        INSERT INTO manage_admin_role_method ( 
+        <trim prefix="" prefixOverrides=",">
+        	<if test="roleId !=null"> ,roleId </if>
+        	<if test="mid !=null"> ,mid </if>
+        	<if test="columnId !=null"> ,columnId </if>
+        </trim>
+        )
+        VALUES (
+        <trim prefix="" prefixOverrides=",">
+        	<if test="roleId !=null"> ,#{roleId} </if>
+        	<if test="mid !=null"> ,#{mid} </if>
+        	<if test="columnId !=null"> ,#{columnId} </if>
+		 </trim>
+        )
+        <selectKey keyProperty="id" resultType="int">
+			SELECT @@IDENTITY AS id 
+		</selectKey>
+    </insert>
+    <update id="updateAdminRoleMethod">
+        UPDATE manage_admin_role_method
+        <trim prefix="set" prefixOverrides=",">
+        	<if test="roleId != null"> ,roleId = #{roleId} </if>
+        	<if test="mid != null"> ,mid = #{mid} </if>
+        	<if test="columnId != null"> ,columnId = #{columnId} </if>
+        </trim>
+    	where id = #{id}
+    </update>
+    <delete id="removeAdminRoleMethodByRoleIdMid">
+        delete from manage_admin_role_method where roleId = ${roleId} and mid = ${mid}
+    </delete>
+    <delete id="removeAdminRoleMethod">
+        delete from manage_admin_role_method where id = #{id}
+    </delete>
+</mapper>

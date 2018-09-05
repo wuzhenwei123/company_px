@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>  
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.comp.cQuestion.dao.CQuestionDAO">
+	<resultMap id="baseResultMap" type="com.comp.cQuestion.model.CQuestion">
+		<id column="id" jdbcType="VARCHAR" property="id" />
+		<result column="content" jdbcType="VARCHAR" property="content" />
+		<result column="style" jdbcType="INTEGER" property="style" />
+		<result column="score" jdbcType="INTEGER" property="score" />
+		<result column="rightAnswer" jdbcType="VARCHAR" property="rightAnswer" />
+		<result column="optionA" jdbcType="VARCHAR" property="optionA" />
+		<result column="optionB" jdbcType="VARCHAR" property="optionB" />
+		<result column="optionC" jdbcType="VARCHAR" property="optionC" />
+		<result column="optionD" jdbcType="VARCHAR" property="optionD" />
+		<result column="optionE" jdbcType="VARCHAR" property="optionE" />
+		<result column="optionF" jdbcType="VARCHAR" property="optionF" />
+	</resultMap>
+
+	<!-- 查询参数 -->
+    <sql id="cQuestion_column_body">
+         a.id,a.content,a.style,a.score,a.rightAnswer,a.optionA,a.optionB,a.optionC,a.optionD,a.optionE,a.optionF
+    </sql>
+    <!-- 查询条件 -->
+    <sql id="cQuestion_select_body">
+    	<trim prefix="where" prefixOverrides="and | or">
+    		<if test="id != null"> and a.id = #{id,jdbcType=VARCHAR} </if>
+    		<if test="content != null"> and a.content = #{content,jdbcType=VARCHAR} </if>
+    		<if test="style != null"> and a.style = #{style,jdbcType=INTEGER} </if>
+    		<if test="score != null"> and a.score = #{score,jdbcType=INTEGER} </if>
+    		<if test="rightAnswer != null"> and a.rightAnswer = #{rightAnswer,jdbcType=VARCHAR} </if>
+    		<if test="optionA != null"> and a.optionA = #{optionA,jdbcType=VARCHAR} </if>
+    		<if test="optionB != null"> and a.optionB = #{optionB,jdbcType=VARCHAR} </if>
+    		<if test="optionC != null"> and a.optionC = #{optionC,jdbcType=VARCHAR} </if>
+    		<if test="optionD != null"> and a.optionD = #{optionD,jdbcType=VARCHAR} </if>
+    		<if test="optionE != null"> and a.optionE = #{optionE,jdbcType=VARCHAR} </if>
+    		<if test="optionF != null"> and a.optionF = #{optionF,jdbcType=VARCHAR} </if>
+		</trim>
+    </sql>
+    <select id="getCQuestionById" parameterType="java.lang.String" resultMap="baseResultMap">
+        SELECT <include refid="cQuestion_column_body" />
+        FROM c_question a
+		where a.id = #{id}
+    </select>
+    <select id="getCQuestionList" parameterType="com.comp.cQuestion.model.CQuestion" resultMap="baseResultMap">
+        SELECT <include refid="cQuestion_column_body" />
+        FROM c_question a
+		<include refid="cQuestion_select_body" />
+    </select>
+    
+    <insert id="insertCQuestion" parameterType="com.comp.cQuestion.model.CQuestion">
+    	
+    	<selectKey keyProperty="id" resultType="String" order="BEFORE">  
+	        select   REPLACE(UUID(),'-','')   from dual  
+	    </selectKey>  
+    
+        INSERT INTO c_question
+        <trim prefix="(" suffix=")" prefixOverrides=",">
+        		<if test="id != null"> ,id </if>
+	        	<if test="content != null"> ,content </if>
+	        	<if test="style != null"> ,style </if>
+	        	<if test="score != null"> ,score </if>
+	        	<if test="rightAnswer != null"> ,rightAnswer </if>
+	        	<if test="optionA != null"> ,optionA </if>
+	        	<if test="optionB != null"> ,optionB </if>
+	        	<if test="optionC != null"> ,optionC </if>
+	        	<if test="optionD != null"> ,optionD </if>
+	        	<if test="optionE != null"> ,optionE </if>
+	        	<if test="optionF != null"> ,optionF </if>
+        </trim>
+        <trim prefix="values (" suffix=")" prefixOverrides=",">
+        		<if test="id != null"> ,#{id,jdbcType=VARCHAR} </if>
+	        	<if test="content != null"> ,#{content,jdbcType=VARCHAR} </if>
+	        	<if test="style != null"> ,#{style,jdbcType=INTEGER} </if>
+	        	<if test="score != null"> ,#{score,jdbcType=INTEGER} </if>
+	        	<if test="rightAnswer != null"> ,#{rightAnswer,jdbcType=VARCHAR} </if>
+	        	<if test="optionA != null"> ,#{optionA,jdbcType=VARCHAR} </if>
+	        	<if test="optionB != null"> ,#{optionB,jdbcType=VARCHAR} </if>
+	        	<if test="optionC != null"> ,#{optionC,jdbcType=VARCHAR} </if>
+	        	<if test="optionD != null"> ,#{optionD,jdbcType=VARCHAR} </if>
+	        	<if test="optionE != null"> ,#{optionE,jdbcType=VARCHAR} </if>
+	        	<if test="optionF != null"> ,#{optionF,jdbcType=VARCHAR} </if>
+		 </trim>
+    </insert>
+    <update id="updateCQuestionById" parameterType="com.comp.cQuestion.model.CQuestion">
+        UPDATE c_question
+        <set>
+        		<if test="content != null"> content = #{content,jdbcType=VARCHAR}, </if>
+        		<if test="style != null"> style = #{style,jdbcType=INTEGER}, </if>
+        		<if test="score != null"> score = #{score,jdbcType=INTEGER}, </if>
+        		<if test="rightAnswer != null"> rightAnswer = #{rightAnswer,jdbcType=VARCHAR}, </if>
+        		<if test="optionA != null"> optionA = #{optionA,jdbcType=VARCHAR}, </if>
+        		<if test="optionB != null"> optionB = #{optionB,jdbcType=VARCHAR}, </if>
+        		<if test="optionC != null"> optionC = #{optionC,jdbcType=VARCHAR}, </if>
+        		<if test="optionD != null"> optionD = #{optionD,jdbcType=VARCHAR}, </if>
+        		<if test="optionE != null"> optionE = #{optionE,jdbcType=VARCHAR}, </if>
+        		<if test="optionF != null"> optionF = #{optionF,jdbcType=VARCHAR}, </if>
+        </set>
+    	where id = #{id}
+    </update>
+    <delete id="deleteCQuestionById">
+        delete from c_question where id = #{id}
+    </delete>
+</mapper>

@@ -1,0 +1,244 @@
+.scroller-container{
+	width: 16rem;
+    height: 100%;
+    overflow: auto;
+    -webkit-overflow-scrolling: touch;
+    position: fixed;
+    top: 0;
+    left: 50%;
+    margin-left: -8rem;
+	background: #f8f8f8;
+}
+.login_box{
+	text-align: center;
+	height: 50px;
+	line-height: 50px;
+	font-weight: bold;
+	box-shadow: 0 2px 2px 0px #e4e4e4;
+	border-bottom: 1px solid #e4e4e4;
+}
+.login_box a{
+	float: left;
+	width: 50%;
+}
+.login_box .active{
+	color: #ff7f00;
+	background: #ececec;
+}
+.o_login{
+	display: none;
+}
+.logo {
+	height: 5rem;
+	text-align: center;
+	line-height: 5rem;
+	background: #fafafa;
+}
+.register_list{
+	margin-top: 20px;
+}
+.login_list ul,.register_list ul{
+	padding-left:15px;
+	background: #ffffff;
+	border-top: 1px solid #ececec;
+	border-bottom: 1px solid #ececec;
+}
+.login_list li,.register_list li{
+	height: 40px;
+    line-height: 40px;
+    border-bottom: 1px solid #ececec;
+}
+.login_list li:last-child,.register_list li:last-child{
+	border: none;
+}
+.login_list li label,.register_list label{
+    display: inline-block;
+    width: 25%;
+    color: #333333;
+    font-weight: bold;
+    float: left;
+}
+.login_list li input,.reg_list input {
+	width: 50%;
+    float: left;
+    height: 40px;
+    line-height: 40px;
+    background: transparent;
+}
+.reg_list input {
+	width: 60%;
+}
+.add_bank{
+    display: block;
+    width: 40px;
+    height: 40px;
+    float: right;
+    background: url(../img/right.png) center no-repeat;
+}
+.code_box{
+	float: right;
+	height: 40px;
+	margin-right: 15px;
+}
+.code_box img{
+	height: 100%;
+	vertical-align: top;
+}
+.h50{
+	padding: 10px 0;
+	height: 60px!important;
+}
+.btn_m_login,.btn_o_login,.btn_cer{
+	height: 40px;
+	line-height: 40px;
+	color: #ffffff;
+	text-align: center;
+	background: #409eff;
+	width: 90%;
+	display: block;
+	margin: 20px auto 0;
+	font-size: 16px;
+	border-radius: 4px;
+	letter-spacing: 5px;
+}
+.o_login{
+	margin-top: 50px;
+}
+.btn_code{
+	height: 40px;
+	line-height: 40px;
+	width: 110px;
+	border-radius: 4px;
+	background: #e4e4e4;
+	display: block;
+	float: right;
+	margin-right: 15px;
+	text-align: center;
+	color: #ffffff;
+}
+.btn_code.active{
+	background: #409eff;
+}
+.mask {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.3);
+    display: none;
+}
+.dalog {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+    width: 80%;
+    max-height: 60%;
+    background: #ffffff;
+    padding: 20px;
+    border-radius: 2px;
+    box-shadow: 0 0 2px 0 #d8d8d8;
+    overflow-y: auto;
+}
+.dalog li {
+    height: 40px;
+    line-height: 40px;
+    font-size: 14px;
+}
+.dalog li.active span {
+    background: #2b99ff;
+    border-color: #2b99ff;
+}
+.dalog li span {
+    display: inline-block;
+    height: 20px;
+    width: 20px;
+    border-radius: 20px;
+    border: 2px solid #d8d8d8;
+    margin-right: 5px;
+    vertical-align: middle;
+    position: relative;
+}
+.dalog li.active span i {
+    position: absolute;
+    display: block;
+    width: 8px;
+    height: 8px;
+    border-radius: 4px;
+    background: #ffffff;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+}
+.agree{
+	margin: 10px 15px 0 15px;
+	color: #a4a4a4;
+	font-size: 12px;
+}
+.agree p{
+	margin-top: 10px;
+	font-weight: bold;
+	color: #4a4a4a;
+	font-size: 12px;
+	line-height: 20px;
+}
+.agree a{
+	color: #409eff;
+
+}
+.agree span{
+	display: inline-block;
+	width: 12px;
+	height: 12px;
+	background: #ffffff;
+	border: 1px solid #e4e4e4;
+	border-radius: 2px;
+	vertical-align: middle;
+	margin-right: 5px;
+	overflow: hidden;
+}
+.agree span.active{
+	background: url("../img/sel_on.png") center no-repeat;
+	-webkit-background-size: 12px;
+	background-size: 12px;
+}
+.cer_list input{
+	float: right;
+	height:38px;
+	line-height: 38px;
+	margin-right: 15px;
+	text-align: right;
+}
+.certi_box li{
+	width: 50%;
+	float: left;
+	position: relative;
+	text-align: center;
+	padding-top: 20px;
+	height: 166px;
+}
+.certi_box p{
+	margin: 5px 0;
+	color: #333333;
+	font-weight: bold;
+}
+.certi_box p i{
+	color: red;
+	font-style: normal;
+}
+.certi_box em{
+	font-size: 12px;
+	color: #a4a4a4;
+}
+.certi_box input{
+	position: absolute;
+	width: 100%;
+	height: 90%;
+	opacity: 0;
+	top: 0;
+	left: 0;
+}
+.btn_cer{
+	margin-top: 40px;
+}

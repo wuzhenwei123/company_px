@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8"?>  
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sys.manageUserLoginLog.dao.ManageUserLoginLogDao">
+	<!-- 查询参数 -->
+    <sql id="manageUserLoginLog_sql_body">
+         a.session_id,a.id,a.user_id,a.user_name,a.content,a.login_date,a.leave_date,a.login_time,a.ip,a.browser,a.os
+    </sql>
+    <!-- 查询条件 -->
+    <sql id="manageUserLoginLog_select_body">
+    	<trim prefix="WHERE" prefixOverrides="AND | OR">
+			<if test="id != null"> AND a.id = #{id} </if>
+			<if test="user_id != null"> AND a.user_id = #{user_id} </if>
+			<if test="user_name != null"> AND a.user_name = #{user_name} </if>
+			<if test="content != null"> AND a.content = #{content} </if>
+			<if test="login_date != null"> AND a.login_date = #{login_date} </if>
+			<if test="leave_date != null"> AND a.leave_date = #{leave_date} </if>
+			<if test="login_time != null"> AND a.login_time = #{login_time} </if>
+			<if test="ip != null"> AND a.ip = #{ip} </if>
+			<if test="browser != null"> AND a.browser = #{browser} </if>
+			<if test="os != null"> AND a.os = #{os} </if>
+			<if test="session_id != null"> AND a.session_id = #{session_id} </if>
+		</trim>
+    </sql>
+   
+ 	<!-- 分页 -->
+    <sql id="manageUserLoginLog_limit_body">
+    	<if test="offset!=null and limit!=null">
+    	limit ${offset} , ${limit} 
+    	</if>
+    </sql>
+    <!-- 排序 -->
+    <sql id="manageUserLoginLog_sort_body">
+    	<if test="sort!=null and order!=null"> order by a.${sort} ${order} </if>
+    </sql>
+    <!-- 总条数-分页 -->
+    <select id="getManageUserLoginLogListCount" resultType="int">
+         SELECT COUNT(*) FROM manage_user_login_log a
+		<include refid="manageUserLoginLog_select_body"></include>
+    </select>
+    <!-- 数据集合-分页 -->
+    <select id="getManageUserLoginLogList" parameterType="com.sys.manageUserLoginLog.model.ManageUserLoginLog" resultType="com.sys.manageUserLoginLog.model.ManageUserLoginLog">
+    	SELECT <include refid="manageUserLoginLog_sql_body" />
+        FROM manage_user_login_log a
+		<include refid="manageUserLoginLog_select_body" />
+		<include refid="manageUserLoginLog_sort_body" />
+		<include refid="manageUserLoginLog_limit_body" />
+    </select>
+    <select id="getManageUserLoginLog" parameterType="com.sys.manageUserLoginLog.model.ManageUserLoginLog" resultType="com.sys.manageUserLoginLog.model.ManageUserLoginLog">
+        SELECT <include refid="manageUserLoginLog_sql_body" />
+        FROM manage_user_login_log a
+		<include refid="manageUserLoginLog_select_body" />
+		<include refid="manageUserLoginLog_sort_body" />
+    </select>
+    <select id="getManageUserLoginLogBaseList" parameterType="com.sys.manageUserLoginLog.model.ManageUserLoginLog" resultType="com.sys.manageUserLoginLog.model.ManageUserLoginLog">
+        SELECT <include refid="manageUserLoginLog_sql_body" />
+        FROM manage_user_login_log a
+		<include refid="manageUserLoginLog_select_body" />
+		<include refid="manageUserLoginLog_sort_body" />
+    </select>
+    
+    <insert id="insertManageUserLoginLog">
+        INSERT INTO manage_user_login_log ( 
+        <trim prefix="" prefixOverrides=",">
+        	<if test="user_id !=null"> ,user_id </if>
+        	<if test="user_name !=null"> ,user_name </if>
+        	<if test="content !=null"> ,content </if>
+        	<if test="login_date !=null"> ,login_date </if>
+        	<if test="leave_date !=null"> ,leave_date </if>
+        	<if test="login_time !=null"> ,login_time </if>
+        	<if test="ip !=null"> ,ip </if>
+        	<if test="browser !=null"> ,browser </if>
+        	<if test="os !=null"> ,os </if>
+        	<if test="session_id !=null"> ,session_id </if>
+        </trim>
+        )
+        VALUES (
+        <trim prefix="" prefixOverrides=",">
+        	<if test="user_id !=null"> ,#{user_id} </if>
+        	<if test="user_name !=null"> ,#{user_name} </if>
+        	<if test="content !=null"> ,#{content} </if>
+        	<if test="login_date !=null"> ,#{login_date} </if>
+        	<if test="leave_date !=null"> ,#{leave_date} </if>
+        	<if test="login_time !=null"> ,#{login_time} </if>
+        	<if test="ip !=null"> ,#{ip} </if>
+        	<if test="browser !=null"> ,#{browser} </if>
+        	<if test="os !=null"> ,#{os} </if>
+        	<if test="session_id !=null"> ,#{session_id} </if>
+		 </trim>
+        )
+        <selectKey keyProperty="id" resultType="long">
+			SELECT @@IDENTITY AS id 
+		</selectKey>
+    </insert>
+    <update id="updateManageUserLoginLog">
+        UPDATE manage_user_login_log
+        <trim prefix="set" prefixOverrides=",">
+        	<if test="user_id != null"> ,user_id = #{user_id} </if>
+        	<if test="user_name != null"> ,user_name = #{user_name} </if>
+        	<if test="content != null"> ,content = #{content} </if>
+        	<if test="login_date != null"> ,login_date = #{login_date} </if>
+        	<if test="leave_date != null"> ,leave_date = #{leave_date} </if>
+        	<if test="login_time != null"> ,login_time = #{login_time} </if>
+        	<if test="ip != null"> ,ip = #{ip} </if>
+        	<if test="browser != null"> ,browser = #{browser} </if>
+        	<if test="os != null"> ,os = #{os} </if>
+        	<if test="session_id != null"> ,session_id = #{session_id} </if>
+        </trim>
+    	where id = #{id}
+    </update>
+    <delete id="removeManageUserLoginLog">
+        delete from manage_user_login_log where id = #{id}
+    </delete>
+</mapper>

@@ -1,0 +1,267 @@
+
+.scroller-container{
+	width: 16rem;
+    height: 100%;
+    overflow: auto;
+    -webkit-overflow-scrolling: touch;
+    position: fixed;
+    top: 0;
+    left: 50%;
+    margin-left: -8rem;
+	background: #f8f8f8;
+	font-size: 14px;
+}
+.add_card{
+	text-align: center;
+	height: 40px;
+	line-height: 40px;
+	letter-spacing: 5px;
+	box-shadow: 0 2px 2px 0px #e4e4e4;
+}
+.add_card a{
+	color: #333333;
+	font-weight: bold;
+}
+.add_card img{
+	margin-right: 5px;
+}
+/*card list*/
+.add_card_box{
+	margin-top: 20px;
+	display: none;
+}
+.add_card_box li,.msg_box li{
+	height: 40px;
+	line-height: 40px;
+	border-bottom: 1px solid #ececec;
+}
+.add_card_box li label,.msg_box li label{
+	display: inline-block;
+	width: 25%;
+	color: #333333;
+	font-weight: bold;
+	float: left;
+}
+.add_card_box li input{
+	float: left;
+	height: 40px;
+	line-height: 40px;
+	background: transparent;
+}
+.add_card_box li a{
+	float: right;
+}
+.card_top ,.card_bot,.msg_box{
+	padding-left:15px;
+	background: #ffffff;
+	border-top: 1px solid #ececec;
+	border-bottom: 1px solid #ececec;
+}
+.card_top li:last-child,.card_bot li:last-child,.msg_box li:last-child{
+	border: none;
+}
+.card_bot,.msg_box{
+	margin-top: 20px;
+}
+.msg_box span{
+	float: right;
+	margin-right: 15px;
+}
+.add_bank,.add_time{
+	display: block;
+	width: 40px;
+	height: 40px;
+	float: right;
+	background: url("../img/right.png") center no-repeat;
+}
+.dalog{
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%,-50%);
+	width: 80%;
+	max-height: 60%;
+	background: #ffffff;
+	padding: 20px;
+	border-radius: 2px;
+	box-shadow: 0 0 2px 0 #d8d8d8;
+	overflow-y: auto;
+}
+.mask{
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	background: rgba(0,0,0,0.3);
+	display: none;
+}
+.dalog li{
+	height: 40px;
+	line-height: 40px;
+	font-size: 14px;
+}
+.dalog li span{
+	display: inline-block;
+	height: 20px;
+	width: 20px;
+	border-radius: 20px;
+	border: 2px solid #d8d8d8;
+	margin-right: 5px;
+	vertical-align: middle;
+	position: relative;
+}
+.dalog li.active span{
+	background: #2b99ff;
+	border-color: #2b99ff;
+}
+.dalog li.active span i{
+	position: absolute;
+	display: block;
+	width:8px;
+	height: 8px;
+	border-radius: 4px;
+	background: #ffffff;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%,-50%);
+}
+.btn_remind{
+	float: right;
+	height: 30px;
+	width: 50px;
+	border-radius: 15px;
+	background: #16c625;
+	margin: 5px 15px 0 0;
+	line-height: 30px;
+	position: relative;
+}
+.btn_remind i{
+	display: block;
+	width: 26px;
+	height: 26px;
+	background: #ffffff;
+	border-radius: 50%;
+	margin: 2px;
+	position: absolute;
+	top: 0;
+	right: 0;
+	transition: all 0.3s;
+}
+.btn_remind.active{
+	background: #d8d8d8;
+}
+.btn_remind.active i{
+	right: 20px;
+}
+.btn_save,.btn_out{
+	height: 40px;
+	line-height: 40px;
+	color: #ffffff;
+	text-align: center;
+	background: #409eff;
+	width: 90%;
+	display: block;
+	margin: 20px auto 0;
+	font-size: 16px;
+	border-radius: 4px;
+	letter-spacing: 5px;
+}
+.btn_out{
+	background: #ffffff;
+	border: 1px solid #e4e4e4;
+	color: #333;
+	letter-spacing: 0;
+}
+.mycard_list{
+	background: #333333;
+	height: 100%;
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+}
+.mycard_list li{
+	height: 80px;
+	background: #ffffff;
+	border-radius: 4px;
+	margin: 15px 5px;
+}
+.bank_pic{
+	width: 70px;
+	padding: 10px;
+	float: left;
+}
+.mycard_list dl{
+	float: left;
+	margin: 24px 0 0 10px;
+}
+.mycard_list dt{
+	font-weight: bold;
+	font-size: 0.8rem
+}
+.mycard_list dd{
+	margin: 0;
+	height: 30px;
+	line-height: 30px;
+}
+.mycard_list i{
+	display: inline-block;
+	width: 1.6rem;
+}
+.deal_box{
+	height: 160px;
+	background: #409eff;
+}
+.deal_box dl{
+	margin-top: 0;
+	text-align: center;
+	font-size: 0.8rem;
+	color: #333;
+}
+.deal_box dl dt{
+	padding-top: 50px;
+}
+.deal_box dl dd{
+	margin:10px 0 0 0;
+}
+.deal_list{
+	margin-top: 20px;
+	box-shadow: 0 1px 1px 0 #c0c0c0;
+}
+.deal_list dt{
+	/* padding: 0 10px; */
+	height: 40px;
+	line-height: 40px;
+	font-weight: bold;
+	box-shadow: 0 0px 1px 0 #c0c0c0;
+}
+.deal_list dd{
+	/* padding: 0 10px; */
+	height: 40px;
+	line-height: 40px;
+	margin: 0;
+	font-size: 12px;
+	/* box-shadow: 0 0 2px 0 #c0c0c0; */
+}
+.deal_list dl li{
+	float: left;
+	width: 18%;
+	text-align: center;
+}
+.page_box{
+	margin: 30px auto 0;
+	width: 60%;
+}
+.page_box li{
+	float: left;
+	width: 25%;
+	text-align: center;
+	border: 1px solid #e4e4e4;
+	height: 38px;
+	line-height: 38px;
+	color: #409eff;
+}
+.deal_list dl .deal_num{
+	width: 44%;
+}

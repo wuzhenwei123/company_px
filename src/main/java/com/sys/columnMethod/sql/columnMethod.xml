@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>  
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sys.columnMethod.dao.ColumnMethodDao">
+	<!-- 查询参数 -->
+    <sql id="columnMethod_sql_body">
+         a.mid,a.columnId,a.en_name,a.zh_name,a.actionPath,a.createTime
+    </sql>
+    <!-- 查询条件 -->
+    <sql id="columnMethod_select_body">
+    	<trim prefix="WHERE" prefixOverrides="AND | OR">
+			<if test="mid != null"> AND a.mid = #{mid} </if>
+			<if test="columnId != null"> AND a.columnId = #{columnId} </if>
+			<if test="en_name != null"> AND a.en_name = #{en_name} </if>
+			<if test="zh_name != null"> AND a.zh_name = #{zh_name} </if>
+			<if test="actionPath != null"> AND a.actionPath = #{actionPath} </if>
+			<if test="createTime != null"> AND a.createTime = #{createTime} </if>
+		</trim>
+    </sql>
+   
+ 	<!-- 分页 -->
+    <sql id="columnMethod_limit_body">
+    	<if test="offset!=null and limit!=null">
+    	limit ${offset} , ${limit} 
+    	</if>
+    </sql>
+    <!-- 排序 -->
+    <sql id="columnMethod_sort_body">
+    	<if test="sort!=null and order!=null"> order by a.${sort} ${order} </if>
+    </sql>
+    <!-- 总条数-分页 -->
+    <select id="getColumnMethodListCount" resultType="int">
+         SELECT COUNT(*) FROM manage_column_method a
+		<include refid="columnMethod_select_body"></include>
+    </select>
+    <!-- 数据集合-分页 -->
+    <select id="getColumnMethodList" parameterType="com.sys.columnMethod.model.ColumnMethod" resultType="com.sys.columnMethod.model.ColumnMethod">
+    	SELECT <include refid="columnMethod_sql_body" />
+        FROM manage_column_method a
+		<include refid="columnMethod_select_body" />
+		<include refid="columnMethod_sort_body" />
+		<include refid="columnMethod_limit_body" />
+    </select>
+    <select id="getColumnMethod" parameterType="com.sys.columnMethod.model.ColumnMethod" resultType="com.sys.columnMethod.model.ColumnMethod">
+        SELECT <include refid="columnMethod_sql_body" />
+        FROM manage_column_method a
+		<include refid="columnMethod_select_body" />
+    </select>
+    <select id="getColumnMethodBaseList" parameterType="com.sys.columnMethod.model.ColumnMethod" resultType="com.sys.columnMethod.model.ColumnMethod">
+        SELECT <include refid="columnMethod_sql_body" />
+        FROM manage_column_method a
+		<include refid="columnMethod_select_body" />
+    </select>
+    
+    <insert id="insertColumnMethod">
+        INSERT INTO manage_column_method ( 
+        <trim prefix="" prefixOverrides=",">
+        	<if test="columnId !=null"> ,columnId </if>
+        	<if test="en_name !=null"> ,en_name </if>
+        	<if test="zh_name !=null"> ,zh_name </if>
+        	<if test="actionPath !=null"> ,actionPath </if>
+        	<if test="createTime !=null"> ,createTime </if>
+        </trim>
+        )
+        VALUES (
+        <trim prefix="" prefixOverrides=",">
+        	<if test="columnId !=null"> ,#{columnId} </if>
+        	<if test="en_name !=null"> ,#{en_name} </if>
+        	<if test="zh_name !=null"> ,#{zh_name} </if>
+        	<if test="actionPath !=null"> ,#{actionPath} </if>
+        	<if test="createTime !=null"> ,#{createTime} </if>
+		 </trim>
+        )
+        <selectKey keyProperty="mid" resultType="int">
+			SELECT @@IDENTITY AS mid 
+		</selectKey>
+    </insert>
+    <update id="updateColumnMethod">
+        UPDATE manage_column_method
+        <trim prefix="set" prefixOverrides=",">
+        	<if test="columnId != null"> ,columnId = #{columnId} </if>
+        	<if test="en_name != null"> ,en_name = #{en_name} </if>
+        	<if test="zh_name != null"> ,zh_name = #{zh_name} </if>
+        	<if test="actionPath != null"> ,actionPath = #{actionPath} </if>
+        	<if test="createTime != null"> ,createTime = #{createTime} </if>
+        </trim>
+    	where mid = #{mid}
+    </update>
+    <delete id="removeColumnMethod">
+        delete from manage_column_method where mid = #{mid}
+    </delete>
+</mapper>

@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>  
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sys.manageAdminRoleColumn.dao.ManageAdminRoleColumnDao">
+	<!-- 查询参数 -->
+    <sql id="manageAdminRoleColumn_sql_body">
+         a.id,a.roleId,a.columnId,b.columnName,b.columnUrl,b.parentColumnID,b.columnImg,b.column_en_name,b.use_state,b.state
+    </sql>
+    <!-- 查询条件 -->
+    <sql id="manageAdminRoleColumn_select_body">
+    	<trim prefix="WHERE" prefixOverrides="AND | OR">
+			<if test="id != null"> AND a.id = #{id} </if>
+			<if test="roleId != null"> AND a.roleId = #{roleId} </if>
+			<if test="columnId != null"> AND a.columnId = #{columnId} </if>
+			<if test="use_state != null"> AND b.use_state = #{use_state} </if>
+			<if test="parentColumnID != null"> AND b.parentColumnID = #{parentColumnID} </if>
+			<if test="state != null"> AND b.state = #{state} </if>
+		</trim>
+    </sql>
+   
+ 	<!-- 分页 -->
+    <sql id="manageAdminRoleColumn_limit_body">
+    	<if test="offset!=null and limit!=null">
+    	limit ${offset} , ${limit} 
+    	</if>
+    </sql>
+    <!-- 排序 -->
+    <sql id="manageAdminRoleColumn_sort_body">
+    	<if test="sort!=null and order!=null"> order by b.${sort} ${order} </if>
+    </sql>
+    <!-- 总条数-分页 -->
+    <select id="getManageAdminRoleColumnListCount" resultType="int">
+         SELECT COUNT(*) FROM manage_admin_role_column a
+		<include refid="manageAdminRoleColumn_select_body"></include>
+    </select>
+    <!-- 数据集合-分页 -->
+    <select id="getManageAdminRoleColumnList" parameterType="com.sys.manageAdminRoleColumn.model.ManageAdminRoleColumn" resultType="com.sys.manageAdminRoleColumn.model.ManageAdminRoleColumn">
+    	SELECT <include refid="manageAdminRoleColumn_sql_body" />
+        FROM manage_admin_role_column a
+        left join manage_column b on a.columnId = b.columnId
+		<include refid="manageAdminRoleColumn_select_body" />
+		<include refid="manageAdminRoleColumn_sort_body" />
+		<include refid="manageAdminRoleColumn_limit_body" />
+    </select>
+    <select id="getManageAdminRoleColumn" parameterType="com.sys.manageAdminRoleColumn.model.ManageAdminRoleColumn" resultType="com.sys.manageAdminRoleColumn.model.ManageAdminRoleColumn">
+        SELECT <include refid="manageAdminRoleColumn_sql_body" />
+        FROM manage_admin_role_column a
+        left join manage_column b on a.columnId = b.columnId
+		<include refid="manageAdminRoleColumn_select_body" />
+		<include refid="manageAdminRoleColumn_sort_body" />
+    </select>
+    <select id="getManageAdminRoleColumnBaseList" parameterType="com.sys.manageAdminRoleColumn.model.ManageAdminRoleColumn" resultType="com.sys.manageAdminRoleColumn.model.ManageAdminRoleColumn">
+        SELECT <include refid="manageAdminRoleColumn_sql_body" />
+        FROM manage_admin_role_column a
+        left join manage_column b on a.columnId = b.columnId
+		<include refid="manageAdminRoleColumn_select_body" />
+		<include refid="manageAdminRoleColumn_sort_body" />
+    </select>
+    
+    <insert id="insertManageAdminRoleColumn">
+        INSERT INTO manage_admin_role_column ( 
+        <trim prefix="" prefixOverrides=",">
+        	<if test="roleId !=null"> ,roleId </if>
+        	<if test="columnId !=null"> ,columnId </if>
+        </trim>
+        )
+        VALUES (
+        <trim prefix="" prefixOverrides=",">
+        	<if test="roleId !=null"> ,#{roleId} </if>
+        	<if test="columnId !=null"> ,#{columnId} </if>
+		 </trim>
+        )
+        <selectKey keyProperty="id" resultType="int">
+			SELECT @@IDENTITY AS id 
+		</selectKey>
+    </insert>
+    <update id="updateManageAdminRoleColumn">
+        UPDATE manage_admin_role_column
+        <trim prefix="set" prefixOverrides=",">
+        	<if test="roleId != null"> ,roleId = #{roleId} </if>
+        	<if test="columnId != null"> ,columnId = #{columnId} </if>
+        </trim>
+    	where id = #{id}
+    </update>
+    <delete id="removeManageAdminRoleColumn">
+        delete from manage_admin_role_column where id = #{id}
+    </delete>
+    <delete id="removeAdminRoleColumnByRoleIdColumnId">
+        delete from manage_admin_role_column where columnId = #{columnId} and roleId = #{roleId}
+    </delete>
+</mapper>

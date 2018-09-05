@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>  
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.comp.cPaperDepartment.dao.CPaperDepartmentDAO">
+	<resultMap id="baseResultMap" type="com.comp.cPaperDepartment.model.CPaperDepartment">
+		<id column="id" jdbcType="BIGINT" property="id" />
+		<result column="paperId" jdbcType="VARCHAR" property="paperId" />
+		<result column="departmentId" jdbcType="VARCHAR" property="departmentId" />
+	</resultMap>
+
+	<!-- 查询参数 -->
+    <sql id="cPaperDepartment_column_body">
+         a.id,a.paperId,a.departmentId
+    </sql>
+    <!-- 查询条件 -->
+    <sql id="cPaperDepartment_select_body">
+    	<trim prefix="where" prefixOverrides="and | or">
+    		<if test="id != null"> and a.id = #{id,jdbcType=BIGINT} </if>
+    		<if test="paperId != null"> and a.paperId = #{paperId,jdbcType=VARCHAR} </if>
+    		<if test="departmentId != null"> and a.departmentId = #{departmentId,jdbcType=VARCHAR} </if>
+		</trim>
+    </sql>
+    <select id="getCPaperDepartmentById" parameterType="java.lang.Long" resultMap="baseResultMap">
+        SELECT <include refid="cPaperDepartment_column_body" />
+        FROM c_paper_department a
+		where a.id = #{id}
+    </select>
+    <select id="getCPaperDepartmentList" parameterType="com.comp.cPaperDepartment.model.CPaperDepartment" resultMap="baseResultMap">
+        SELECT <include refid="cPaperDepartment_column_body" />
+        FROM c_paper_department a
+		<include refid="cPaperDepartment_select_body" />
+    </select>
+    
+    <insert id="insertCPaperDepartment" parameterType="com.comp.cPaperDepartment.model.CPaperDepartment">
+        INSERT INTO c_paper_department
+        <trim prefix="(" suffix=")" prefixOverrides=",">
+	        	<if test="paperId != null"> ,paperId </if>
+	        	<if test="departmentId != null"> ,departmentId </if>
+        </trim>
+        <trim prefix="values (" suffix=")" prefixOverrides=",">
+	        	<if test="paperId != null"> ,#{paperId,jdbcType=VARCHAR} </if>
+	        	<if test="departmentId != null"> ,#{departmentId,jdbcType=VARCHAR} </if>
+		 </trim>
+        <selectKey keyProperty="id" resultType="long">
+			SELECT @@IDENTITY AS id 
+		</selectKey>
+    </insert>
+    <update id="updateCPaperDepartmentById" parameterType="com.comp.cPaperDepartment.model.CPaperDepartment">
+        UPDATE c_paper_department
+        <set>
+        		<if test="paperId != null"> paperId = #{paperId,jdbcType=VARCHAR}, </if>
+        		<if test="departmentId != null"> departmentId = #{departmentId,jdbcType=VARCHAR}, </if>
+        </set>
+    	where id = #{id}
+    </update>
+    <delete id="deleteCPaperDepartmentById">
+        delete from c_paper_department where id = #{id}
+    </delete>
+    <delete id="deleteCPaperDepartmentByPaperId">
+        delete from c_paper_department where paperId = #{paperId}
+    </delete>
+    
+    <!-- 分页 -->
+    <sql id="cPaperDepartment_limit_body">
+    	<if test="offset!=null and limit!=null">
+    	limit ${offset} , ${limit} 
+    	</if>
+    </sql>
+    <!-- 排序 -->
+    <sql id="cPaperDepartment_sort_body">
+    	<if test="sort!=null and order!=null"> order by b.${sort} ${order} </if>
+    </sql>
+    
+    <select id="getCPaperDepartmentListByPage" parameterType="com.comp.cPaperDepartment.model.CPaperDepartment" resultMap="baseResultMap">
+        SELECT a.*,b.title,b.score,b.createTime,b.startTime,b.endTime,b.state,b.questionCount,c.id as userAnserPaperId
+        FROM c_paper_department a
+        left join c_paper b on a.paperId = b.id
+        left join (select * from c_user_paper where userId=#{userId,jdbcType=INTEGER}) c on a.paperId = c.paperId 
+		<trim prefix="where" prefixOverrides="and | or">
+    		<if test="id != null"> and a.id = #{id,jdbcType=BIGINT} </if>
+    		<if test="paperId != null"> and a.paperId = #{paperId,jdbcType=VARCHAR} </if>
+    		<if test="departmentId != null"> and a.departmentId = #{departmentId,jdbcType=VARCHAR} </if>
+    		<if test="state != null"> and b.state = #{state,jdbcType=INTEGER} </if>
+		</trim>
+		<include refid="cPaperDepartment_sort_body" />
+		<include refid="cPaperDepartment_limit_body" />
+    </select>
+</mapper>

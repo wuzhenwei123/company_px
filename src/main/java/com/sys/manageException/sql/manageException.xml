@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>  
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sys.manageException.dao.ManageExceptionDao">
+	<!-- 查询参数 -->
+    <sql id="manageException_sql_body">
+         a.id,a.exception,a.content,a.createTime,a.remark,a.state,a.brief
+    </sql>
+    <!-- 查询条件 -->
+    <sql id="manageException_select_body">
+    	<trim prefix="WHERE" prefixOverrides="AND | OR">
+			<if test="id != null"> AND a.id = #{id} </if>
+			<if test="exception != null"> AND a.exception = #{exception} </if>
+			<if test="content != null"> AND a.content like '%${content}%' </if>
+			<if test="createTime != null"> AND a.createTime = #{createTime} </if>
+			<if test="remark != null"> AND a.remark = #{remark} </if>
+			<if test="state != null"> AND a.state = #{state} </if>
+			<if test="brief != null"> AND a.brief like '%${brief}%' </if>
+			<if test="createTime1 != null"> AND a.createTime >= #{createTime1} </if>
+			<if test="createTime2 != null"> AND a.createTime <![CDATA[<=]]> #{createTime2} </if>
+		</trim>
+    </sql>
+   
+ 	<!-- 分页 -->
+    <sql id="manageException_limit_body">
+    	<if test="offset!=null and limit!=null">
+    	limit ${offset} , ${limit} 
+    	</if>
+    </sql>
+    <!-- 排序 -->
+    <sql id="manageException_sort_body">
+    	<if test="sort!=null and order!=null"> order by a.${sort} ${order} </if>
+    </sql>
+    <!-- 总条数-分页 -->
+    <select id="getManageExceptionListCount" resultType="int">
+         SELECT COUNT(*) FROM manage_exception a
+		<include refid="manageException_select_body"></include>
+    </select>
+    <!-- 数据集合-分页 -->
+    <select id="getManageExceptionList" parameterType="com.sys.manageException.model.ManageException" resultType="com.sys.manageException.model.ManageException">
+    	SELECT <include refid="manageException_sql_body" />
+        FROM manage_exception a
+		<include refid="manageException_select_body" />
+		<include refid="manageException_sort_body" />
+		<include refid="manageException_limit_body" />
+    </select>
+    <select id="getManageException" parameterType="com.sys.manageException.model.ManageException" resultType="com.sys.manageException.model.ManageException">
+        SELECT <include refid="manageException_sql_body" />
+        FROM manage_exception a
+		<include refid="manageException_select_body" />
+    </select>
+    <select id="getManageExceptionBaseList" parameterType="com.sys.manageException.model.ManageException" resultType="com.sys.manageException.model.ManageException">
+        SELECT <include refid="manageException_sql_body" />
+        FROM manage_exception a
+		<include refid="manageException_select_body" />
+    </select>
+    
+    <insert id="insertManageException">
+        INSERT INTO manage_exception ( 
+        <trim prefix="" prefixOverrides=",">
+        	<if test="exception!=null"> ,exception </if>
+        	<if test="content!=null"> ,content </if>
+        	<if test="createTime!=null"> ,createTime </if>
+        	<if test="remark!=null"> ,remark </if>
+        	<if test="state!=null"> ,state </if>
+        	<if test="brief!=null"> ,brief </if>
+        </trim>
+        )
+        VALUES (
+        <trim prefix="" prefixOverrides=",">
+        	<if test="exception!=null"> ,#{exception} </if>
+        	<if test="content!=null"> ,#{content} </if>
+        	<if test="createTime!=null"> ,#{createTime} </if>
+        	<if test="remark!=null"> ,#{remark} </if>
+        	<if test="state!=null"> ,#{state} </if>
+        	<if test="brief!=null"> ,#{brief} </if>
+		 </trim>
+        )
+        <selectKey keyProperty="id" resultType="int">
+			SELECT @@IDENTITY AS id 
+		</selectKey>
+    </insert>
+    <update id="updateManageException">
+        UPDATE manage_exception
+        <trim prefix="set" prefixOverrides=",">
+        	<if test="exception!=null"> ,exception=#{exception} </if>
+        	<if test="content!=null"> ,content=#{content} </if>
+        	<if test="createTime!=null"> ,createTime=#{createTime} </if>
+        	<if test="remark!=null"> ,remark=#{remark} </if>
+        	<if test="state!=null"> ,state=#{state} </if>
+        	<if test="brief!=null"> ,brief=#{brief} </if>
+        </trim>
+    	where id = #{id}
+    </update>
+    <delete id="removeManageException">
+        delete from manage_exception where id = #{id}
+    </delete>
+</mapper>
